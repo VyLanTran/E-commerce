@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .forms import SignUpForm
 
 def index(request):
     # If user sends POST request, they want to log in
@@ -22,3 +23,21 @@ def index(request):
 def logout_user(request):
     logout(request)
     return redirect('index')
+
+
+def signup_user(request):
+    # If user sends POST request, they're done with filling out the form and ready to submit
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Login
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+    # Otherwise, send them the form to sign up
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
