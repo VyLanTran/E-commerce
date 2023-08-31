@@ -3,32 +3,78 @@
 {% block content %}
 
 <div class="col-md-6 offset-md-3">
-    <h1>Sign Up</h1>
+    <h1 class="mb-6 text-4xl bold">Sign up</h1>
     <br />
 
-    <!-- blank action means we send POST request to the current url -->
     <form method="POST" action="">
         {% csrf_token %}
 
         {% if form.errors %}
-        <div class="alert alert-danger small alert-dismissible fade show" role="alert">
-            Some information are invalid
-            {% for field in form %}
-            {% if field.errors %}
-            {{ field.errors }}
-            {% endif %}
-            {% endfor %}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+
+        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="flex-shrink-0 inline w-4 h-4 mr-3 mt-[2px]" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Danger</span>
+            <div>
+                <span class="font-medium">Your form has the following errors: </span>
+                <ul class="mt-1.5 ml-4 list-disc list-outside">
+                    {% for field in form %}
+                    {% if field.errors %}
+                    <li>{{ field.errors }}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
+
         {% endif %}
 
-        {{form.as_p}}
+        <div class="form">
+            <div class="mb-3">
+                {{ form.username }}
+                <span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and
+                        @/./+/-/_
+                        only.</small></span>
+            </div>
+
+            <div class="mb-3">
+                {{ form.first_name }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.last_name }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password1 }}
+                <ul class="form-text text-muted small list-disc pl-8 mt-3">
+                    <li>Your password can't be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can't be a commonly used password.</li>
+                    <li>Your password can't be entirely numeric.</li>
+                </ul>
+            </div>
+
+
+            <div class="mb-3">
+                {{ form.password2 }}
+                <span class="form-text text-muted"><small>Enter the same password as before, for
+                        verification.</small></span>
+            </div>
+        </div>
 
         <br />
-        <button type="submit" class="btn btn-secondary">
+        <button type="submit" class="px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600">
             Sign Up
         </button>
     </form>
-</div>
-
-{% endblock %}
+    {% endblock %}

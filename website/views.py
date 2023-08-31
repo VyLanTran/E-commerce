@@ -2,9 +2,19 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm
+from item.models import Category, Item
 
 def index(request):
-    # If user sends POST request, they want to log in
+    items = Item.objects.filter(is_sold=False)
+    categories = Category.objects.all()
+
+    return render(request, 'index.html', {
+        'categories': categories,
+        'items': items,
+    })
+    
+def login_user(request):
+    # If user sends POST request, they're done with filling out the form and ready to login
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -12,13 +22,14 @@ def index(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            return redirect('index')
         else:
             messages.success(
                 request, "Either username or password is incorrect. Try again")
-        return redirect('index')
-    # Otherwise, they just want to see the home page
+            return render(request, 'login.html', {})
+    # Otherwise, send them the form to login
     else:
-        return render(request, 'index.html', {})
+        return render(request, 'login.html', {})
 
 def logout_user(request):
     logout(request)
@@ -41,3 +52,4 @@ def signup_user(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+

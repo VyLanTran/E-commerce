@@ -1,38 +1,24 @@
 {% extends 'base.html' %}
 
+{% block title %}All{% endblock %}
+
 {% block content %}
 
-{% if user.is_authenticated %}
+<div class="grid grid-cols-3 gap-3">
+    {% for item in items %}
+    <div>
+        <a href="#">
+            <div>
+                <img src="{{ item.image.url }}" class="rounded-t-xl">
+            </div>
 
-<div class="text-center">
-    <h1>Welcome</h1>
+            <div class="p-6 bg-white rounded-b-xl">
+                <h2 class="text-2xl">{{ item.name }}</h2>
+                <p class="text-gray-500">Price: {{ item.price }}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
 </div>
-
-{% else %}
-<div class="col-md-6 offset-md-3">
-    <h1>Login</h1>
-    <br />
-    <form method="POST" action="{% url 'index' %}">
-        {% csrf_token %}
-
-        <div class="mb-3">
-            <input type="text" class="form-control" name="username" placeholder="Username" required>
-        </div>
-        {% if messages %}
-        {% for message in messages %}
-        <p style="font-size: small; color: red;">
-            {{message}}
-        </p>
-        {% endfor %}
-        {% endif %}
-        <div class="mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-        </div>
-        <br />
-        <button type="submit" class="btn btn-secondary">Login</button>
-
-    </form>
-</div>
-{% endif %}
 
 {% endblock %}
