@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{item.name}}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="grid grid-cols-12">
+        <div class="col-span-1"></div>
+        <div class="col-span-5">
+            <img src="{{ item.image.url }}" class="h-full w-full object-fill">
+        </div>
+        <div class="col-span-6 p-10 ">
+            <!-- Seller -->
+            <a href="#" class="">
+                <div class="flex gap-3 mb-6">
+                    <div
+                        class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-blue-900 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                    </div>
+                    <div>{{item.seller.username}}</div>
+                </div>
+            </a>
+
+            <!-- Item info -->
+            <div class="flex flex-col gap-2">
+                <h1 class="mb-6 text-3xl">{{ item.name }}</h1>
+                {% if item.description %}
+                <p class="text-gray-700">
+                    <strong class="text-gray-500">Description:</strong>
+                    {{ item.description }}
+                </p>
+                {% endif %}
+                <p class="text-gray-700">
+                    <strong class="text-gray-500">Price:</strong>
+                    $ {{ item.price }}
+                </p>
+                <p class="text-gray-700">
+                    <strong class="text-gray-500">Condition:</strong>
+                    {% if item.is_new %}
+                    New
+                    {% else %}
+                    Pre-owned
+                    {% endif %}
+                </p>
+                <p class="text-gray-700">
+                    <strong class="text-gray-500">Quantity:</strong>
+                    {{item.quantity}}
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="mt-12 flex gap-4">
+                <a href="#"
+                    class="flex px-8 py-2.5 items-center justify-center  bg-[#42abed] text-white rounded-sm ">Add
+                    to cart</a>
+                <a href="#" class="flex  px-8 py-2.5 items-center justify-center text-[#42abed] bg-white rounded-sm"
+                    style=" border: 1px solid #42abed;">Contact
+                    seller</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full bg-gray-200 h-[1px] mt-[100px]"></div>
+
+    <div class="mt-[20px]">
+
+        <div class="text-center text-lg font-medium">RELATED ITEMS</div>
+        <div class="grid grid-cols-6 mt-4">
+            {% for item in related_items %}
+            <div class="borderborder-gray-500" style="border-width: 0.2px;">
+                <a href="{% url 'item:detail' item.id %}" class="block h-full">
+                    <div class="h-[150px]">
+                        <img src="{{ item.image.url }}" class="h-full w-full object-contain" alt="{{ item.name }}">
+                    </div>
+
+                    <div class="px-6 py-4 text-center">
+                        <p class="text-sm font-medium">{{ item.name }}</p>
+                        <p class="text-gray-500 text-xs">$ {{ item.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

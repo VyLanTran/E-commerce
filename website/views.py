@@ -21,14 +21,17 @@ def login_user(request):
         # Authenticate
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            print(1)
             login(request, user)
             return redirect('index')
         else:
             messages.success(
                 request, "Either username or password is incorrect. Try again")
+            print(2)
             return render(request, 'login.html', {})
     # Otherwise, send them the form to login
     else:
+        print(3)
         return render(request, 'login.html', {})
 
 def logout_user(request):

@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
 
 <div class="col-md-6 offset-md-3">
     <h1 class="mb-6 text-4xl bold">Login</h1>
     <br />
 
-    <form method="POST" action="{% url 'index' %}">
+    <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
 
         {% if messages %}
