@@ -1,10 +1,13 @@
 {% extends 'website/base.html' %}
 
-{% block title %}My conversation{% endblock %}
+{% block title %}Item Chat{% endblock %}
 
 {% block content %}
 
-<div class="container mt-10">
+<div class="container">
+    <h1 class="mb-6 text-4xl bold text-center">Item Chat</h1>
+    <br />
+
     <div class="space-y-4">
         {% for message in item_conversation.messages.all %}
         <div class="flex {% if message.sender == request.user %} ml-auto {% else %} mr-auto{% endif %}">
