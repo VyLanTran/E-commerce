@@ -1,0 +1,35 @@
+{% extends 'website/base.html' %}
+
+{% block title %}My conversation{% endblock %}
+
+{% block content %}
+
+<div class="container mt-10">
+    <div class="space-y-4">
+        {% for message in item_conversation.messages.all %}
+        <div class="flex {% if message.sender == request.user %} ml-auto {% else %} mr-auto{% endif %}">
+
+            <div class="pl-4 pr-12 py-4 {% if message.sender == request.user %}bg-blue-100 ml-auto {% else %}bg-gray-100{% endif %} rounded-xl"
+                style="display: inline-block;">
+                <div>
+                    <p class="mb-2 font-bold">{{ message.sender.username}} &nbsp;
+                        <span class="text-xs text-gray-600">{{ message.created_at }}</span>
+                    </p>
+                    <p>{{ message.content }}</p>
+                </div>
+            </div>
+        </div>
+        <br />
+        {% endfor %}
+    </div>
+
+    <form method="post" action="." class="mt-6">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit"
+            class="px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 mt-6">Send</button>
+    </form>
+</div>
+{% endblock %}

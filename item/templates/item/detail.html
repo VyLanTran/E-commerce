@@ -79,7 +79,8 @@
                 <a href="#"
                     class="flex px-8 py-2.5 items-center justify-center  bg-[#42abed] text-white rounded-sm ">Add
                     to cart</a>
-                <a href="#" class="flex  px-8 py-2.5 items-center justify-center text-[#42abed] bg-white rounded-sm"
+                <a href="{% url 'conversation:new_item_conversation' item.id %}"
+                    class="flex  px-8 py-2.5 items-center justify-center text-[#42abed] bg-white rounded-sm"
                     style=" border: 1px solid #42abed;">Contact
                     seller</a>
                 {% endif %}

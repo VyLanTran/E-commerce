@@ -7,6 +7,6 @@ from item.models import Item
 def index(request):
     items = Item.objects.filter(seller=request.user)
 
-    return render(request, 'my_store/index.html', {
+    return render(request, 'store/index.html', {
         'items': items,
     })

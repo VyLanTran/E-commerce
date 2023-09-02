@@ -54,7 +54,7 @@ def edit_item(request, pk):
 
     return render(request, 'item/add_item.html', {
         'form': form,
-         'action': 'edit',
+        'action': 'edit',
     })
 
 @login_required
@@ -62,4 +62,4 @@ def delete_item(request, pk):
     item = get_object_or_404(Item, pk=pk, seller=request.user)
     item.delete()
 
-    return redirect('my_store:index')
+    return redirect('store:index')

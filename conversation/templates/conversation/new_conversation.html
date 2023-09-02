@@ -1,16 +1,18 @@
 {% extends 'website/base.html' %}
 
-{% block title %}Add item{% endblock %}
+{% block title %}New conversation{% endblock %}
 
 {% block content %}
-
-<div class="col-md-6 offset-md-3">
-
-    <h1 class="mb-6 text-3xl">Add new item to your store</h1>
+<div class="container">
+    <h1 class="mb-6 text-4xl bold">New conversation</h1>
     <br />
 
-    <form method="post" action="." enctype="multipart/form-data">
+    <form method="post" action=".">
         {% csrf_token %}
+
+        <div class="space-y-4">
+            {{ form.as_p }}
+        </div>
 
         {% if form.errors or form.non_field_errors %}
 
@@ -38,27 +40,7 @@
 
         {% endif %}
 
-        <div class="form">
-            {% for field in form %}
-            <div>
-                <div>{{field.label}}</div>
-                <div class="mb-3">
-                    {{ field }}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <br />
-
-        <button type="submit" class="px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600">
-            {% if action == 'add' %}
-            Add
-            {% else %}
-            Save
-            {% endif %}
-        </button>
+        <button type="submit"
+            class="px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 mt-6">Send</button>
     </form>
-
-</div>
-{% endblock %}
+    {% endblock %}

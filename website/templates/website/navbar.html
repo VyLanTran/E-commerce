@@ -1,5 +1,5 @@
 <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-[#131a22] flex justify-between items-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-[#131a22] flex justify-between items-center px-4">
         <div class="container-fluid">
             <!-- Logo -->
             <div class="flex-shrink-0">
@@ -41,7 +41,13 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my_store:index' %}">My Store</a>
+                        <a class="nav-link" href="{% url 'store:index' %}">My Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'item:add_item' %}">Add Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'conversation:inbox' %}">Inbox</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'website:logout' %}">Logout</a>
@@ -60,7 +66,7 @@
             </div>
         </div>
     </nav>
-    <div class="bg-[#232f3e] flex">
+    <div class="bg-[#232f3e] flex  px-4">
         {% for category in categories %}
         <a href="{% url 'website:index' %}?query={{ query }}&category={{ category.id }}">
             <div class="text-white text-sm p-2 mx-2">
