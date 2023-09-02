@@ -1,16 +1,28 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.db.models import Q
+
 from .forms import SignUpForm
 from item.models import Category, Item
 
 def index(request):
-    items = Item.objects.filter(is_sold=False)
+    query = request.GET.get('query', '')
+    category_id = request.GET.get('category', 0)
     categories = Category.objects.all()
+    items = Item.objects.filter(is_sold=False)
 
-    return render(request, 'index.html', {
-        'categories': categories,
+    if category_id:
+        items = items.filter(category_id=category_id)
+
+    if query: 
+        items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
+
+    return render(request, 'website/index.html', {
         'items': items,
+        'query': query,
+        'categories': categories,
+        'category_id': int(category_id)
     })
     
 def login_user(request):
@@ -21,22 +33,19 @@ def login_user(request):
         # Authenticate
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            print(1)
             login(request, user)
-            return redirect('index')
+            return redirect('website:index')
         else:
             messages.success(
                 request, "Either username or password is incorrect. Try again")
-            print(2)
-            return render(request, 'login.html', {})
+            return render(request, 'website/login.html', {})
     # Otherwise, send them the form to login
     else:
-        print(3)
-        return render(request, 'login.html', {})
+        return render(request, 'website/login.html', {})
 
 def logout_user(request):
     logout(request)
-    return redirect('index')
+    return redirect('website:index')
 
 
 def signup_user(request):
@@ -50,9 +59,9 @@ def signup_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('index')
+            return redirect('website:index')
     # Otherwise, send them the form to sign up
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'website/signup.html', {'form': form})
 

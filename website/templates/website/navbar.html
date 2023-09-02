@@ -1,0 +1,72 @@
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-[#131a22] flex justify-between items-center">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <a class="navbar-brand " href="{% url 'website:index' %}">GigaStore</a>
+            </div>
+
+            <!-- Browse -->
+            <form class="d-flex flex-grow text-center ml-[20%] mr-[20%]" role="search">
+                <div class="input-group">
+                    <!-- <div class="dropdown">
+                    <button class="btn bg-[#febd69] dropdown-toggle" type="button" id="categoryDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Category
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                        <li><a class="dropdown-item" href="#">Category 1</a></li>
+                        <li><a class="dropdown-item" href="#">Category 2</a></li>
+                        <li><a class="dropdown-item" href="#">Category 3</a></li>
+                    </ul>
+                </div> -->
+
+                    <form method="get" action="/login">
+                        <input name="query" class="form-control" type="text" value="{{query}}" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn bg-[#febd69] hover:bg-[#faab46]" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="black" class="text-white w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </form>
+
+
+            <!-- Links -->
+            <div class=" flex-shrink-0" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'my_store:index' %}">My Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'website:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'website:login' %}">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'website:signup' %}">Sign up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="bg-[#232f3e] flex">
+        {% for category in categories %}
+        <a href="{% url 'website:index' %}?query={{ query }}&category={{ category.id }}">
+            <div class="text-white text-sm p-2 mx-2">
+                {{ category.name }}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>

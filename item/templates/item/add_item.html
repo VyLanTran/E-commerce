@@ -1,0 +1,64 @@
+{% extends 'website/base.html' %}
+
+{% block title %}Add item{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+
+    <h1 class="mb-6 text-3xl">Add new item to your store</h1>
+    <br />
+
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.errors or form.non_field_errors %}
+
+        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="flex-shrink-0 inline w-4 h-4 mr-3 mt-[2px]" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Danger</span>
+            <div>
+                <span class="font-medium">Your form has the following errors: </span>
+                <ul class="mt-1.5 ml-4 list-disc list-outside">
+                    {% for field in form %}
+                    {% if field.errors %}
+                    <li>{{field}}{{ field.errors }}</li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {{ form.non_field_errors }}
+                </ul>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <div class="form">
+            {% for field in form %}
+            <div>
+                <div>{{field.label}}</div>
+                <div class="mb-3">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <br />
+
+        <button type="submit" class="px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600">
+            {% if action == 'add' %}
+            Add
+            {% else %}
+            Edit
+            {% endif %}
+        </button>
+    </form>
+
+</div>
+{% endblock %}

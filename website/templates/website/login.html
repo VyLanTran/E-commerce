@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 
 {% block title %}Login{% endblock %}
 
@@ -8,7 +8,7 @@
     <h1 class="mb-6 text-4xl bold">Login</h1>
     <br />
 
-    <form method="POST" action="{% url 'login' %}">
+    <form method="POST" action="{% url 'website:login' %}">
         {% csrf_token %}
 
         {% if messages %}
