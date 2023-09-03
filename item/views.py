@@ -21,7 +21,6 @@ def add_item(request):
         form = AddItemForm(request.POST, request.FILES)
 
         if form.is_valid():
-            print(form)
             item = form.save(commit=False)
             item.seller = request.user      # to make sure that you are the owner of the item, and only you can update/delete it
             if not item.image:
